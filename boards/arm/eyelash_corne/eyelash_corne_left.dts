@@ -15,5 +15,5 @@
 };
 
 &tps43 {
-  status = "okay";
+  status = "disabled";
 };
