@@ -9,16 +9,16 @@
  * Row 2: | 28 | 29 | 30 | 31 | 32 | 33 | 34* |    | 35* | 36 | 37 | 38 | 39 | 40 | 41 |
  * Row 3:                     | 42 | 43 | 44 |          | 45 | 46 | 47 |
  *
- * 5-column layout on 6-column board:
- *   Left outer col (0,13,28) = &none (blank)
- *   Right outer col (12,27,41) = &none (blank)
- *   Center positions (6,19-21,34,35) = &none (no joystick/encoder)
+ * 5-column ynot layout on 6-column board:
+ *   Q and P moved to outer home row (pos 13 and 27) for pinky comfort
+ *   Row 0 outer (0,1,11,12) = &none
+ *   Row 2 outer (28,41) = &none
+ *   Center positions (6,19-21,34,35) = &none
  *
- * 36-key to 48-key position mapping:
- *   Row 0:  0-4 → 1-5,   5-9 → 7-11
- *   Row 1: 10-14 → 14-18, 15-19 → 22-26
- *   Row 2: 20-24 → 29-33, 25-29 → 36-40
- *   Thumb: 30-32 → 42-44, 33-35 → 45-47
+ * zmk-helpers 36.h label mapping (0=inner, 4=outer for left hand):
+ *   LT0=4(T) LT1=3(R) LT2=2(E) LT3=1(W) LT4=0(Q)
+ *   LM0=14(G) LM1=13(F) LM2=12(D) LM3=11(S) LM4=10(A)
+ *   RT/RM: 0=inner(Y/H) to 4=outer(P/:)
  */
 
 #define HM_TAPPING_TERM 300
@@ -36,8 +36,8 @@
 #define NUMPAD 4
 
 /* Key position groups for homerow mods (48-key positions) */
-#define KEYS_L  1  2  3  4  5  14 15 16 17 18  29 30 31 32 33
-#define KEYS_R  7  8  9  10 11  22 23 24 25 26  36 37 38 39 40
+#define KEYS_L  1  2  3  4  5  13 14 15 16 17 18  29 30 31 32 33
+#define KEYS_R  7  8  9  10 11  22 23 24 25 26 27  36 37 38 39 40
 #define THUMBS  42 43 44  45 46 47
 
 &lt {
@@ -108,7 +108,7 @@
 
         numlayer {
             bindings = <&sl NUMPAD>;
-            key-positions = <15 16>;      /* S + D */
+            key-positions = <17 16>;      /* F + D (LM1=13→17, LM2=12→16) */
         };
 
         homerow_hyperspace {
@@ -128,17 +128,17 @@
 
         control_b {
             bindings = <&kp LC(B)>;
-            key-positions = <18 26>;      /* G + : */
+            key-positions = <14 26>;      /* A + : (LM4=10→14, RM4=19→26) */
         };
 
         caps_word_combo {
             bindings = <&caps_word>;
-            key-positions = <31 32>;      /* C + V */
+            key-positions = <30 31>;      /* X + C (LB3=21→30, LB2=22→31) */
         };
 
         softoff {
             bindings = <&soft_off>;
-            key-positions = <1 15 29>;    /* Q + S + Z column */
+            key-positions = <1 15 29>;    /* col 1 top + S + Z */
         };
     };
 
@@ -147,24 +147,24 @@
 
         default_layer {
             display-name = "BASE";
-//          |blank|  Q  |  W  |  E  |  R  |  T  | joy  |  Y  |  U  |  I  |  O  |  P  |blank|
-//          |blank|  A  |  S  |  D  |  F  |  G  |j  j j|  H  |  J  |  K  |  L  |  :  |blank|
-//          |blank|  Z  |  X  |  C  |  V  |  B  |enc jy|  N  |  M  |  ,  |  .  |  /  |blank|
+//          |     |     |  W  |  E  |  R  |  T  | joy  |  Y  |  U  |  I  |  O  |     |     |
+//          |  Q  |  A  |  S  |  D  |  F  |  G  |j  j j|  H  |  J  |  K  |  L  |  :  |  P  |
+//          |     |  Z  |  X  |  C  |  V  |  B  |enc jy|  N  |  M  |  ,  |  .  |  /  |     |
 //                              |shft | esc | spc |      | rse |bspc |shft |
             bindings = <
-&none  &kp Q  &kp W                &kp E            &kp R                 &kp T                     &none                        &kp Y                 &kp U                 &kp I                 &kp O                   &kp P          &none
-&none  &kp A  &kp S                &kp D            &kp F                 &kp G          &none &none &none          &kp H                 &kp J                 &kp K                 &kp L                   &tap_colon     &none
-&none  &kp Z  &hml LEFT_CONTROL X  &hml LEFT_ALT C  &hml LEFT_COMMAND V   &hml LEFT_CONTROL B  &none      &none      &hmr RIGHT_CONTROL N  &hmr RIGHT_COMMAND M  &hmr RIGHT_ALT COMMA  &hmr RIGHT_CONTROL DOT  &kp SLASH      &none
-                                   &sk LEFT_SHIFT   &hmr LEFT_GUI ESCAPE  &lt LOWER SPACE                          &mo RAISE             &kp BACKSPACE         &sk RIGHT_SHIFT
+&none   &none  &kp W                &kp E            &kp R                 &kp T                     &none                        &kp Y                 &kp U                 &kp I                 &kp O                   &none          &none
+&kp Q   &kp A  &kp S                &kp D            &kp F                 &kp G          &none &none &none          &kp H                 &kp J                 &kp K                 &kp L                   &tap_colon     &kp P
+&none   &kp Z  &hml LEFT_CONTROL X  &hml LEFT_ALT C  &hml LEFT_COMMAND V   &hml LEFT_CONTROL B  &none      &none      &hmr RIGHT_CONTROL N  &hmr RIGHT_COMMAND M  &hmr RIGHT_ALT COMMA  &hmr RIGHT_CONTROL DOT  &kp SLASH      &none
+                                    &sk LEFT_SHIFT   &hmr LEFT_GUI ESCAPE  &lt LOWER SPACE                          &mo RAISE             &kp BACKSPACE         &sk RIGHT_SHIFT
             >;
         };
 
         lower_layer {
             display-name = "LOWER";
             bindings = <
-&none  &kp LG(SPACE)  &kp LA(F1)  &kp LA(F2)  &kp LA(F3)  &kp TAB                  &none                    &kp UNDER          &kp SINGLE_QUOTE       &kp DOUBLE_QUOTES   &kp GRAVE       &trans  &none
-&none  &kp F1         &kp F2      &kp F3      &kp F4      &kp F5        &none &none &none        &kp LESS_THAN      &kp LEFT_PARENTHESIS   &kp LEFT_BRACKET    &kp LEFT_BRACE   &kp SEMICOLON  &none
-&none  &kp F8         &kp F9      &kp F10     &kp F11     &kp F12  &none      &none        &kp GREATER_THAN   &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET   &kp RIGHT_BRACE  &trans         &none
+&none          &none  &kp LA(F1)  &kp LA(F2)  &kp LA(F3)  &kp TAB                  &none                    &kp UNDER          &kp SINGLE_QUOTE       &kp DOUBLE_QUOTES   &kp GRAVE       &none          &none
+&kp LG(SPACE)  &kp F1  &kp F2     &kp F3      &kp F4      &kp F5        &none &none &none        &kp LESS_THAN      &kp LEFT_PARENTHESIS   &kp LEFT_BRACKET    &kp LEFT_BRACE   &kp SEMICOLON  &trans
+&none          &kp F8  &kp F9     &kp F10     &kp F11     &kp F12  &none      &none        &kp GREATER_THAN   &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET   &kp RIGHT_BRACE  &trans         &none
                                   &trans      &trans      &trans                            &trans             &trans                 &trans
             >;
         };
@@ -172,30 +172,30 @@
         raise_layer {
             display-name = "RAISE";
             bindings = <
-&none  &trans      &kp HOME  &kp UP    &kp END    &trans                    &none                    &kp EQUAL  &kp EXCL       &kp AT       &kp HASH   &kp UNDER      &none
-&none  &kp LG(C)   &kp LEFT  &kp DOWN  &kp RIGHT  &trans         &none &none &none        &kp PLUS   &kp DOLLAR     &kp PERCENT  &kp CARET  &kp STAR       &none
-&none  &kp LG(V)   &trans    &trans    &trans     &trans    &none      &none        &kp MINUS  &kp AMPERSAND  &kp TILDE    &kp PIPE   &kp BACKSLASH  &none
-                             &trans    &trans     &trans                            &trans     &trans         &trans
+&none   &none      &kp HOME  &kp UP    &kp END    &trans                    &none                    &kp EQUAL  &kp EXCL       &kp AT       &kp HASH   &none          &none
+&trans  &kp LG(C)  &kp LEFT  &kp DOWN  &kp RIGHT  &trans         &none &none &none        &kp PLUS   &kp DOLLAR     &kp PERCENT  &kp CARET  &kp STAR       &kp UNDER
+&none   &kp LG(V)  &trans    &trans    &trans     &trans    &none      &none        &kp MINUS  &kp AMPERSAND  &kp TILDE    &kp PIPE   &kp BACKSLASH  &none
+                              &trans    &trans     &trans                            &trans     &trans         &trans
             >;
         };
 
         adjust_layer {
             display-name = "ADJUST";
             bindings = <
-&none  &kp C_BRIGHTNESS_INC  &kp LC(LS(LG(N4)))  &kp LC(K)  &trans     &kp LA(TAB)                &none                    &kp LS(TAB)    &kp LA(LC(LG(LEFT)))  &kp LA(LC(LG(SPACE)))  &kp LA(LC(LG(RIGHT)))  &kp C_VOLUME_UP    &none
-&none  &kp C_BRIGHTNESS_DEC  &kp LC(H)           &kp LC(J)  &kp LC(L)  &trans          &none &none &none        &kp LG(EQUAL)  &trans                &save_vim              &trans                 &kp C_VOLUME_DOWN  &none
-&none  &trans                &trans              &trans     &trans     &trans     &none      &none        &kp LG(MINUS)  &trans                &trans                 &trans                 &trans             &none
-                                                &trans     &trans     &trans                              &trans         &trans                &trans
+&none                  &none                 &kp LC(LS(LG(N4)))  &kp LC(K)  &trans     &kp LA(TAB)                &none                    &kp LS(TAB)    &kp LA(LC(LG(LEFT)))  &kp LA(LC(LG(SPACE)))  &kp LA(LC(LG(RIGHT)))  &none              &none
+&kp C_BRIGHTNESS_INC   &kp C_BRIGHTNESS_DEC  &kp LC(H)           &kp LC(J)  &kp LC(L)  &trans          &none &none &none        &kp LG(EQUAL)  &trans                &save_vim              &trans                 &kp C_VOLUME_DOWN  &kp C_VOLUME_UP
+&none                  &trans                &trans              &trans     &trans     &trans     &none      &none        &kp LG(MINUS)  &trans                &trans                 &trans                 &trans             &none
+                                                                &trans     &trans     &trans                              &trans         &trans                &trans
             >;
         };
 
         numpad_layer {
             display-name = "NUM";
             bindings = <
-&none  &trans        &trans        &trans        &trans        &trans                      &none                    &kp N0     &kp N1  &kp N2  &kp N3  &kp PERIOD  &none
-&none  &trans        &kp LEFT_GUI  &trans        &trans        &trans          &none &none &none        &kp PLUS   &kp N4  &kp N5  &kp N6  &kp STAR    &none
-&none  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR &none      &none        &kp MINUS  &kp N7  &kp N8  &kp N9  &kp SLASH   &none
-                                   &trans        &trans        &trans                                &kp N0     &trans  &trans
+&none   &none         &trans        &trans        &trans        &trans                      &none                    &kp N0     &kp N1  &kp N2  &kp N3  &none       &none
+&trans  &trans        &kp LEFT_GUI  &trans        &trans        &trans          &none &none &none        &kp PLUS   &kp N4  &kp N5  &kp N6  &kp STAR    &kp PERIOD
+&none   &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR &none      &none        &kp MINUS  &kp N7  &kp N8  &kp N9  &kp SLASH   &none
+                                    &trans        &trans        &trans                                &kp N0     &trans  &trans
             >;
         };
     };
