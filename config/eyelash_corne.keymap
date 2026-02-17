@@ -208,8 +208,8 @@
             display-name = "MOUSE";
             bindings = <
 &none   &none  &none            &mmv MOVE_UP    &none             &msc SCRL_UP                       &none                    &trans  &trans  &trans  &trans  &none   &none
-&none   &none  &mmv MOVE_LEFT   &none           &mmv MOVE_RIGHT   &msc SCRL_DOWN      &none &none &none        &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &none  &none            &mmv MOVE_DOWN  &none             &none          &none      &none        &trans  &trans  &trans  &trans  &trans  &trans
+&none   &none  &mmv MOVE_LEFT   &mmv MOVE_DOWN  &mmv MOVE_RIGHT   &msc SCRL_DOWN      &none &none &none        &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &none  &none            &none           &none             &none          &none      &none        &trans  &trans  &trans  &trans  &trans  &trans
                                 &trans          &trans            &trans                                 &mkp LCLK  &mkp MCLK  &mkp RCLK
             >;
         };
